@@ -11,7 +11,7 @@ namespace DAY_27.Tables
     [Table("clients")]
 
     public class Client    {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Column("Name")]
@@ -22,7 +22,7 @@ namespace DAY_27.Tables
         public string Fathername { get; set; }
         [Column("phone")]
         public string Phone {  get; set; }
-        [Column("adress")]
+        [Column("address")]
         public string Adress { get; set; }
         public Client(string name, string surname, string fathername, string adress, string phone)
         {
@@ -32,5 +32,7 @@ namespace DAY_27.Tables
             Adress = adress;
             Phone = phone;
         }
+
+        public override string ToString() => $"{Name} {Surname} {Fathername}";
     }
 }

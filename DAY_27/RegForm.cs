@@ -31,7 +31,7 @@ namespace DAY_27
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string name = textBox3.Text, login = textBox1.Text, password = textBox2.Text;
+            string name = textBox1.Text, login = textBox2.Text, password = textBox3.Text;
             try
             {
                 if (name.Length == 0 || login.Length == 0 || password.Length == 0)
@@ -41,11 +41,11 @@ namespace DAY_27
                 else
                 {
                     Employee user = new Employee(login, Convert.ToHexString(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password))));
-                    var us = context.Users.FirstOrDefault(u => u.Login == user.Login);
+                    var us = context.Employees.FirstOrDefault(u => u.Login == user.Login);
 
                     if (us == null)
                     {
-                        context.Users.Add(user);
+                        context.Employees.Add(user);
                         MessageBox.Show("Данные сохранены", "Успешно", MessageBoxButtons.OK);
                     }
                     else

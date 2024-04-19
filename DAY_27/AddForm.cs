@@ -23,8 +23,12 @@ namespace DAY_27
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string name = textBox1.Text, stazh = textBox2.Text;
-            if (name.Length == 0 || stazh.Length == 0)
+            Client client = new(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text);
+            if (client.Name.Length == 0 || 
+                client.Surname.Length == 0 ||
+                client.Fathername.Length == 0 ||
+                client.Adress.Length == 0 ||
+                client.Phone.Length == 0)
             {
                 throw new Exception("Заполните все поля");
             }
@@ -33,18 +37,21 @@ namespace DAY_27
                 using (var context = new Datab())
                 {
                     try
-                    {
-                        Employee employee = new Employee(user.Id, name, stazh, false);
-                        var co = context.Employees.FirstOrDefault(em => em.Fio == employee.Fio);
-                    
-                        if(co == null)
+                    {                        
+                        if (context.Clients.FirstOrDefault(c => 
+                            c.Name == client.Name &&
+                            c.Surname == client.Surname &&
+                            c.Fathername == client.Fathername &&
+                            c.Adress == client.Adress &&
+                            c.Phone == client.Phone
+                        ) == null)
                         {
-                            context.Employees.Add(employee);
+                            context.Clients.Add(client);
                             MessageBox.Show("Данные сохранены", "Успешно", MessageBoxButtons.OK);
                         }
                         else
                         {
-                            MessageBox.Show("Сотрудник уже есть в БД", "Ошибка", MessageBoxButtons.OK);
+                            MessageBox.Show("Клиент уже есть в БД", "Ошибка", MessageBoxButtons.OK);
                         }
                         context.SaveChanges();
                     }

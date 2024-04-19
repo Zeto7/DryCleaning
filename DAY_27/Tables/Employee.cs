@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DAY_27.Tables
 {
-    [Table("employees")]
+    [Table("users")]
     public class Employee
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id {  get; set; }
         [Column("login")]
         public string Login { get; set; }

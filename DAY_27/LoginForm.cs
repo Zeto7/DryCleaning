@@ -33,13 +33,13 @@ namespace DAY_27
                     }
                     else
                     {
-                        var user = context.Employees.FirstOrDefault(e => e.Lo == login && SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password)).SequenceEqual(Convert.FromHexString(e.Password)));
-                        if(user != null && user.Login == login)
+                        var user = context.Employees.FirstOrDefault(e => e.Login == login);
+                        if(user != null && SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password)).SequenceEqual(Convert.FromHexString(user.Password)))
                         {
                             MainForm mf = new MainForm(user);
                             this.Hide();
-                            Application.Run(mf);
-                            
+                            mf.FormClosed += (s, args) => this.Close();                     
+                            mf.ShowDialog();
                         }
                         else
                         {

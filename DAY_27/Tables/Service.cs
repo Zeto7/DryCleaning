@@ -7,7 +7,7 @@ namespace DAY_27.Tables
 
     public class Service
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
@@ -16,12 +16,13 @@ namespace DAY_27.Tables
         [Column("price")]
         public decimal Price { get; set; }
 
-        public Service(int id, string name, int typeId, decimal price)
+        public Service(string name, int typeId, decimal price)
         {
-            Id = id;
             Name = name;
             TypeId = typeId;
             Price = price;
         }
+
+        public override string ToString() => Name;
     }
 }

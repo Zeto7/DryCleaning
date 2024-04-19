@@ -11,11 +11,11 @@ using DAY_27.Tables;
 
 namespace DAY_27
 {
-    public partial class CompanyAddForm : Form
+    public partial class ServiceAddForm : Form
     {
         Employee user;
 
-        public CompanyAddForm(Employee userData)
+        public ServiceAddForm(Employee userData)
         {
             InitializeComponent();
             user = userData;
@@ -25,21 +25,23 @@ namespace DAY_27
         {
             try
             {
-                string name = textBox1.Text, sphere = textBox2.Text, date = dateTimePicker1.Text;
-                if (name.Length == 0 || sphere.Length == 0 || date.Length == 0)
+                string name = textBox1.Text, priceStr = textBox2.Text, type = comboBox1.Text;
+                if (name.Length == 0 || priceStr.Length == 0 || type.Length == 0)
                 {
                     throw new Exception("Заполните все поля");
                 }
+                decimal price;
+                if (!Decimal.TryParse(priceStr, out price))
+                    throw new Exception("Стоимость имеет некорректное значение");
                 using (var context = new Datab())
                 {
-                    var com = context.Companies.FirstOrDefault(c => c.Name == name);
+                    var service = new Service(name, context.Types.First(s => s.Name == type).Id, price);
+                    var com = context.Services.FirstOrDefault(s => s.Name == service.Name && s.TypeId == service.TypeId && s.Price == service.Price);
                     if (com == null)
                     {
-                        var country = context.Countries.FirstOrDefault(c => c.Name == date);
-
-                        Company company = new Company(textBox1.Text, textBox2.Text, country.Id);
-                        context.Companies.Add(company);
+                        context.Services.Add(service);
                         context.SaveChanges();
+                        MessageBox.Show("Данные сохранены", "Успешно", MessageBoxButtons.OK);
                     }
                     else
                     {
@@ -57,10 +59,9 @@ namespace DAY_27
         {
             using (var context = new Datab())
             {
-                var countries = context.Countries;
-                foreach (var country in countries)
+                foreach (var type in context.Types)
                 {
-                    //comboBox1.Items.Add(country.Name);
+                    comboBox1.Items.Add(type.Name);
                 }
             }
         }
