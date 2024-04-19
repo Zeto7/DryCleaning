@@ -11,16 +11,15 @@ namespace DAY_27.Tables
     [Table("contract_services")]
     internal class ContractService
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("contract_id")]
         public int ContractId {get; set; }
         [Column("service_id")]
         public int ServiceId { get; set; }
 
-        public ContractService(int id, int contractId, int serviceId)
+        public ContractService(int contractId, int serviceId)
         {
-            Id = id;
             ContractId = contractId;
             ServiceId = serviceId;
         }

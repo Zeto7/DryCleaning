@@ -11,18 +11,17 @@ namespace DAY_27.Tables
     [Table("contracts")]
     internal class Contract
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("client_id")]
         public int ClientId {  get; set; }
         [Column("start_date")]
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         [Column("completion_date")]
-        public string CompletionDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
 
-        public Contract(int id, int clientId, string startDate, string completionDate)
+        public Contract(int clientId, DateTime startDate, DateTime? completionDate)
         {
-            Id = id;
             ClientId = clientId;
             StartDate = startDate;
             CompletionDate = completionDate;

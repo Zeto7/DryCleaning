@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace DAY_27.Tables
 {
-    [Table("types")]
+    [Table("service_types")]
 
     public class ServiceType
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
-        public ServiceType(int id,string name)
+        public ServiceType(string name)
         {
-            Id = id;
             Name = name;
         }
     }
